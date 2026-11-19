@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SavingRabbit — Claude Code, Cursor &amp; Copilot cost per merged PR</title>
+<title>SavingRabbit by BlockRun — Claude Code, Cursor &amp; Copilot cost per merged PR</title>
 <meta name="description" content="Free, open-source CLI that shows what your AI coding spend shipped. Joins Claude Code, Cursor, Codex and GitHub Copilot spend to merged pull requests, by model and team, then finds where to save.">
 <link rel="canonical" href="https://savingrabbit.com/">
 <meta property="og:type" content="website">
@@ -59,6 +59,10 @@ header.top .wrap { display: flex; align-items: center; justify-content: space-be
 .brand { display: flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 700; font-size: 18px; }
 .brand:hover { text-decoration: none; }
 .brand img { width: 30px; height: 30px; }
+.brandline { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.brandline .brand { align-self: center; }
+.by { font-size: 14px; color: var(--dim); white-space: nowrap; }
+.by a { color: var(--dim); text-decoration: underline; text-underline-offset: 3px; }
 .hero-top { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 32px; align-items: center; }
 .hero-copy { display: grid; gap: 22px; min-width: 0; }
 .hero > *, .hero-top > * { min-width: 0; }
@@ -144,7 +148,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px soli
 <body>
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="/"><img src="/logo.svg" alt="" width="30" height="30">SavingRabbit</a>
+    <span class="brandline"><a class="brand" href="/"><img src="/logo.svg" alt="" width="30" height="30">SavingRabbit</a><span class="by">by <a href="https://blockrun.ai">BlockRun</a></span></span>
     <nav class="links" aria-label="Main">
       <a class="hide-sm" href="#how">How it works</a>
       <a class="hide-sm" href="#connect">Connect</a>
