@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/mascot-360.png" alt="SavingRabbit mascot" width="180">
+
 <h1>SavingRabbit</h1>
 
 <p><strong>What your AI coding spend shipped, and where to save.</strong><br>

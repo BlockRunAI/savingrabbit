@@ -6,7 +6,7 @@
 <text x="48" y="118" font-size="12" fill="#5b6763">AI spend</text>
 <text x="48" y="156" font-size="28" font-weight="700" fill="#14201d">$224,300</text>
 <rect x="260" y="92" width="212" height="84" rx="10" fill="#ffffff" stroke="#dde3df"/>
-<text x="276" y="118" font-size="12" fill="#5b6763">Merged prs</text>
+<text x="276" y="118" font-size="12" fill="#5b6763">Merged PRs</text>
 <text x="276" y="156" font-size="28" font-weight="700" fill="#14201d">6,230</text>
 <rect x="488" y="92" width="212" height="84" rx="10" fill="#ffffff" stroke="#dde3df"/>
 <text x="504" y="118" font-size="12" fill="#5b6763">Written with an agent</text>

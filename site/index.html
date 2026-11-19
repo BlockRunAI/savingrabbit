@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SavingRabbit — Claude Code, Cursor &amp; Copilot cost per merged PR</title>
+<meta name="description" content="Free, open-source CLI that shows what your AI coding spend shipped. Joins Claude Code, Cursor, Codex and GitHub Copilot spend to merged pull requests, by model and team, then finds where to save.">
+<link rel="canonical" href="https://savingrabbit.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://savingrabbit.com/">
+<meta property="og:title" content="SavingRabbit — what your AI coding spend shipped">
+<meta property="og:description" content="Claude Code, Cursor, Codex and Copilot cost per merged pull request, by model and team. Free and open source.">
+<meta property="og:image" content="https://savingrabbit.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#EEEAE1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1C1B19" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon-64.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"SavingRabbit","applicationCategory":"DeveloperApplication","operatingSystem":"macOS, Linux, Windows","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://savingrabbit.com/","codeRepository":"https://github.com/BlockRunAI/savingrabbit","description":"Open-source CLI that joins AI coding spend (Claude Code, Cursor, Codex, GitHub Copilot) to merged pull requests and reports cost per merged PR by model and team.","image":"https://savingrabbit.com/icon-512.png","author":{"@type":"Organization","name":"BlockRun","url":"https://blockrun.ai"}}
+</script>
+<style>
+/* Layout: one column, 1080px max. Tokens copied from blockrun.ai (marble paper, blue-black ink, steel accent, bronze). */
+:root {
+  --paper: #EEEAE1; --surface: #E3DED2; --raised: #D8D2C4; --line: #D3D1CA; --line-2: #A9ADAA;
+  --ink: #0F1B24; --prose: #23303A; --dim: #505C65; --accent: #25466B; --accent-soft: rgba(37,70,107,0.08);
+  --bronze: #8C6A3F; --ok: #44603F;
+  --body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Geist Mono", "SF Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #1C1B19; --surface: #26241F; --raised: #302D27; --line: #3A362F; --line-2: #4A453C;
+  --ink: #EEEAE1; --prose: #D9D3C7; --dim: #BDB5A6; --accent: #8FB8D8; --accent-soft: rgba(143,184,216,0.12);
+  --bronze: #C9A25D; --ok: #9CC496; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #1C1B19; --surface: #26241F; --raised: #302D27; --line: #3A362F; --line-2: #4A453C;
+  --ink: #EEEAE1; --prose: #D9D3C7; --dim: #BDB5A6; --accent: #8FB8D8; --accent-soft: rgba(143,184,216,0.12);
+  --bronze: #C9A25D; --ok: #9CC496; color-scheme: dark }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--prose); font-family: var(--body); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3 { color: var(--ink); font-weight: 600; margin: 0; text-wrap: balance; letter-spacing: -0.015em; }
+h1 { font-size: clamp(38px, 6vw, 64px); line-height: 1.04; }
+h2 { font-size: clamp(26px, 3.4vw, 34px); line-height: 1.15; }
+h3 { font-size: 18px; line-height: 1.3; }
+p { margin: 0; max-width: 64ch; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+header.top { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top, 0px); }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 700; font-size: 18px; }
+.brand:hover { text-decoration: none; }
+.brand img { width: 30px; height: 30px; }
+.hero-top { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 32px; align-items: center; }
+.hero-copy { display: grid; gap: 22px; min-width: 0; }
+.hero > *, .hero-top > * { min-width: 0; }
+.cmd { max-width: 100%; }
+.mascot { width: 100%; max-width: 280px; height: auto; justify-self: end; }
+@media (max-width: 860px) { .hero-top { grid-template-columns: 1fr; } .mascot { max-width: 180px; justify-self: start; order: -1; } }
+nav.links { display: flex; gap: 24px; align-items: center; font-size: 15px; }
+nav.links a { color: var(--prose); }
+.btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 11px 20px; font-weight: 600; font-size: 15px; border: 1px solid var(--accent); }
+.btn:hover { text-decoration: none; }
+.btn.primary { background: var(--accent); color: var(--paper); }
+.btn.ghost { color: var(--accent); background: transparent; }
+section { padding-block: 72px; border-bottom: 1px solid var(--line); }
+.hero { padding-block: 64px 40px; display: grid; gap: 22px; }
+.hero .sub { font-size: 19px; color: var(--prose); max-width: 58ch; }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.cmd { display: flex; align-items: center; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; max-width: 760px; }
+.cmd pre { margin: 0; font-family: var(--mono); font-size: 14px; color: var(--ink); overflow-x: auto; flex: 1; min-width: 0; white-space: pre; }
+.copy { font: 500 13px var(--mono); color: var(--accent); background: transparent; border: 1px solid var(--line-2); border-radius: 8px; padding: 6px 10px; cursor: pointer; flex: none; }
+.shot { margin-top: 8px; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); background: #F6F7F5; }
+.shot img { display: block; width: 100%; height: auto; }
+.caption { font-size: 13px; color: var(--dim); margin-top: 10px; }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 32px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.card .step { font-family: var(--mono); font-size: 12px; color: var(--bronze); letter-spacing: 0.06em; }
+.card code, .src code { font-family: var(--mono); font-size: 13px; color: var(--accent); }
+.sources { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 28px; }
+.src { border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.src b { color: var(--ink); font-weight: 600; }
+.src span { font-size: 14px; color: var(--dim); }
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+ul.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+ul.checks li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; }
+ul.checks li::before { content: "✓"; color: var(--ok); font-weight: 700; }
+ul.checks b { color: var(--ink); }
+.teams { background: var(--accent); color: var(--paper); border-radius: 18px; padding: 36px; display: grid; gap: 14px; }
+.teams h2 { color: var(--paper); }
+.teams p { color: var(--paper); opacity: 0.9; }
+.teams .btn { border-color: var(--paper); background: var(--paper); color: var(--accent); width: fit-content; }
+.faq { display: grid; gap: 0; margin-top: 24px; }
+.faq details { border-top: 1px solid var(--line); padding: 18px 0; }
+.faq details:last-child { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; color: var(--ink); font-weight: 600; font-size: 17px; list-style: none; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; float: right; color: var(--dim); font-family: var(--mono); }
+.faq details[open] summary::after { content: "–"; }
+.faq p { margin-top: 10px; }
+footer { padding-block: 40px calc(40px + env(safe-area-inset-bottom, 0px)); font-size: 14px; color: var(--dim); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; }
+button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+@media (max-width: 860px) {
+  .trio, .split { grid-template-columns: 1fr; }
+  .sources { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  nav.links a.hide-sm { display: none; }
+  section { padding-block: 52px; }
+}
+@media (max-width: 480px) { nav.links { gap: 12px; } .btn { padding: 10px 16px; }  .sources { grid-template-columns: 1fr; } .teams { padding: 26px; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/"><img src="/favicon-64.png" alt="" width="30" height="30">SavingRabbit</a>
+    <nav class="links" aria-label="Main">
+      <a class="hide-sm" href="#how">How it works</a>
+      <a class="hide-sm" href="#connect">Connect</a>
+      <a class="hide-sm" href="#faq">FAQ</a>
+      <a class="btn ghost" href="https://github.com/BlockRunAI/savingrabbit">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="hero" style="border-bottom:0">
+      <div class="hero-top"><div class="hero-copy">
+      <div class="eyebrow">Free · Open source · Apache 2.0</div>
+      <h1>What your AI coding spend shipped, and where to save.</h1>
+      <p class="sub">Your team pays Anthropic, OpenAI, Cursor and GitHub for AI. Each bill tells you what you spent. None of them tells you what it bought. SavingRabbit joins the bills to the pull requests that merged and prices every one.</p>
+      </div><img class="mascot" src="/mascot.png" alt="SavingRabbit, a cartoon rabbit holding a receipt and a coin" width="280" height="280"></div>
+      <div class="cmd" role="group" aria-label="Try it">
+        <pre id="cmd">git clone https://github.com/BlockRunAI/savingrabbit && cd savingrabbit
+python3 savingrabbit.py pull-local --since 2026-11-01 --until 2026-11-30 --repo ~/code/app
+python3 savingrabbit.py report</pre>
+        <button class="copy" type="button" id="copy">Copy</button>
+      </div>
+      <div class="ctas">
+        <a class="btn primary" href="https://github.com/BlockRunAI/savingrabbit">Get it on GitHub</a>
+        <a class="btn ghost" href="#teams">Run it on your team's data</a>
+      </div>
+      <div class="shot"><img src="/dashboard.svg" alt="SavingRabbit dashboard: AI spend by tool, and cost per merged PR by coding agent and model" width="960" height="620"></div>
+      <div class="caption">Illustrative data from <span class="mono">savingrabbit.py demo</span>. Your numbers come from your own logs and keys.</div>
+    </section>
+  </div>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="eyebrow">How it works</div>
+      <h2>Measure, replay, route.</h2>
+      <div class="trio">
+        <div class="card"><span class="step">01 · MEASURE</span><h3>Cost per merged PR</h3><p>Pulls spend from each vendor's own admin API and reads which agent and model wrote each merged PR from the <code>Co-Authored-By</code> trailers your agents already leave. Reports by tool, model and team.</p></div>
+        <div class="card"><span class="step">02 · REPLAY</span><h3>Which tasks need the top model</h3><p>Re-runs real tasks on cheaper models through one <a href="https://user.blockrun.ai">BlockRun</a> key, records what each call cost, and checks every answer against the output your team accepted.</p></div>
+        <div class="card"><span class="step">03 · ROUTE</span><h3>Switch with evidence</h3><p>Picks the cheapest model that held your quality bar and writes the <code>/model</code> and <code>/exclude</code> settings for <a href="https://github.com/BlockRunAI/ClawRouter">ClawRouter</a>, the open-source router.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="connect">
+    <div class="wrap">
+      <div class="eyebrow">Connect your tools</div>
+      <h2>One read-only credential per source.</h2>
+      <p style="margin-top:12px">Start with no keys at all: <code class="mono">pull-local</code> reads only the token counts in your own Claude Code logs, never prompts or outputs. Add each team source when you're ready.</p>
+      <div class="sources">
+        <div class="src"><b>Claude Code</b><span>Cost per person, day and model</span></div>
+        <div class="src"><b>Claude API</b><span>Cost per workspace and model</span></div>
+        <div class="src"><b>Cursor</b><span>Every usage event, cents charged</span></div>
+        <div class="src"><b>OpenAI · Codex</b><span>Cost per project and line item</span></div>
+        <div class="src"><b>GitHub Copilot</b><span>Seats × your seat price</span></div>
+        <div class="src"><b>Your LLM proxy</b><span>Every call, tagged by the tool that sent it</span></div>
+        <div class="src"><b>BlockRun gateway</b><span>Spend per model for a wallet</span></div>
+        <div class="src"><b>GitHub</b><span>Merged PRs and the agent that wrote each</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap split">
+      <div>
+        <div class="eyebrow">Built to be trusted with keys</div>
+        <h2 style="margin-top:8px">Read it in one sitting.</h2>
+        <p style="margin-top:14px">One Python file, standard library only. It runs on your machine, talks only to the vendors you point it at, and keeps no account and no telemetry.</p>
+      </div>
+      <ul class="checks">
+        <li><span><b>Read-only.</b> GET requests and one read-only search. It never writes to a vendor.</span></li>
+        <li><span><b>Teams, not people.</b> It reads per-person data where vendors publish it that way, and reports only by team.</span></li>
+        <li><span><b>Keys stay in your shell.</b> Read from environment variables, never written to disk or printed in errors.</span></li>
+        <li><span><b>Honest about limits.</b> A merged PR is not value, and cost per PR is a window ratio. The README says so.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="teams" style="border-bottom:0">
+    <div class="wrap">
+      <div class="teams">
+        <div class="eyebrow" style="color:inherit;opacity:.75">For engineering and finance leaders</div>
+        <h2>Want the answer on your real data, in two weeks?</h2>
+        <p>BlockRun runs SavingRabbit on your AI bill with read-only access, replays your top tasks on candidate models, and hands you a model-per-task plan with the quality evidence behind it.</p>
+        <a class="btn" href="https://blockrun.ai/work-with-us">Talk to BlockRun</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <div class="eyebrow">FAQ</div>
+      <h2>Questions teams ask first</h2>
+      <div class="faq">
+        <details><summary>How much does Claude Code cost per pull request?</summary><p>It varies widely by team and model, which is why it's worth measuring. Run <span class="mono">pull-local</span> for yourself, or <span class="mono">pull-claude-code</span> plus <span class="mono">pull-github</span> for a team, then <span class="mono">report</span>.</p></details>
+        <details><summary>How do I measure the ROI of Cursor, Copilot or Codex?</summary><p>Connect each tool's admin API and compare cost per merged PR across tools. Copilot is billed per seat, so its cost is seats times your seat price.</p></details>
+        <details><summary>Can I track AI coding spend by team without tracking individuals?</summary><p>Yes. Map emails and GitHub logins to teams in a CSV. Spend and merged PRs roll up to teams, and the report never shows a person.</p></details>
+        <details><summary>Does it send my code or prompts anywhere?</summary><p>No. It reads usage counts and git metadata locally. Only the optional <span class="mono">replay</span> command sends the sample prompts you choose to BlockRun's gateway, so use samples with secrets removed.</p></details>
+        <details><summary>Is it free?</summary><p>Yes. Apache 2.0, including commercial use inside your company. Replays run on BlockRun at the cost of the calls.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>SavingRabbit · made by <a href="https://blockrun.ai">BlockRun</a> · Apache 2.0</span>
+    <span><a href="https://github.com/BlockRunAI/savingrabbit">GitHub</a> · <a href="https://github.com/BlockRunAI/ClawRouter">ClawRouter</a> · <a href="https://user.blockrun.ai">Get a BlockRun key</a></span>
+  </div>
+</footer>
+
+<script>
+document.getElementById("copy").addEventListener("click", async (e) => {
+  const text = document.getElementById("cmd").textContent;
+  try { await navigator.clipboard.writeText(text); e.target.textContent = "Copied"; }
+  catch { const r = document.createRange(); r.selectNodeContents(document.getElementById("cmd")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); e.target.textContent = "Selected"; }
+  setTimeout(() => (e.target.textContent = "Copy"), 1600);
+});
+</script>
+</body>
+</html>

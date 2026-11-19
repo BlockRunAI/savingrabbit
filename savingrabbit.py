@@ -437,7 +437,7 @@ def report(a):
     for t in out["tools"]:
         print(f"| {t['tool']} | {money(t['spend_usd'])} |")
     unit = out["unit"].split()[-1][:-1]
-    print(f"\n| Coding agent · model | Spend | {out['unit'].capitalize()} | Cost per {unit} |\n|---|---:|---:|---:|")
+    print(f"\n| Coding agent · model | Spend | {out['unit'][:1].upper() + out['unit'][1:]} | Cost per {unit} |\n|---|---:|---:|---:|")
     for r in out["agents"]:
         print(f"| {r['agent']} | {money(r['spend_usd'])} | {r['merged_prs']} | {money(r['usd_per_merged_pr'])} |")
     print("\n| Team | Spend | Merged PRs | Written with an agent |\n|---|---:|---:|---:|")
@@ -456,7 +456,7 @@ def dashboard_svg(out, title="SavingRabbit"):
          f'<text x="32" y="48" font-size="22" font-weight="700" fill="{ink}">{esc(title)}</text>',
          f'<text x="32" y="72" font-size="13" fill="{muted}">What the AI spend shipped · by tool, model and team, never by person</text>']
     share = "–" if out["agent_share"] is None else f"{out['agent_share']:.0%}"
-    tiles = [("AI spend", money(out["spend_usd_total"], cents=False)), (out.get("unit", "merged PRs").capitalize(), f"{out['merged_prs']:,}"),
+    tiles = [("AI spend", money(out["spend_usd_total"], cents=False)), (out.get("unit", "merged PRs")[:1].upper() + out.get("unit", "merged PRs")[1:], f"{out['merged_prs']:,}"),
              ("Written with an agent", share), ("Per agent-written PR", money(out["coding_usd_per_merged_pr"]))]
     for i, (k, v) in enumerate(tiles):
         x = 32 + i * 228
