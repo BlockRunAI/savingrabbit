@@ -1,11 +1,13 @@
 <div align="center">
 
-<img src="assets/mascot-360.png" alt="SavingRabbit mascot" width="180">
+<img src="assets/logo.svg" alt="SavingRabbit logo" width="120">
 
 <h1>SavingRabbit</h1>
 
 <p><strong>What your AI coding spend shipped, and where to save.</strong><br>
 Claude Code, Cursor, Codex and Copilot cost per merged pull request, by model and team.</p>
+
+<h3>Stop paying Opus prices for Sonnet work.</h3>
 
 <p>Your team pays Anthropic, OpenAI, Cursor and GitHub for AI.<br>
 Each bill tells you what you spent. None of them tells you what it bought.<br><br>
@@ -13,6 +15,7 @@ Each bill tells you what you spent. None of them tells you what it bought.<br><b
 
 <br>
 
+<img src="https://img.shields.io/badge/💸_Find_the_savings-8C6A3F?style=for-the-badge" alt="Find the savings">&nbsp;
 <img src="https://img.shields.io/badge/🧾_Cost_per_merged_PR-0f6e5c?style=for-the-badge" alt="Cost per merged PR">&nbsp;
 <img src="https://img.shields.io/badge/🔒_Read--only-black?style=for-the-badge" alt="Read-only">&nbsp;
 <img src="https://img.shields.io/badge/🏠_Runs_locally-blue?style=for-the-badge" alt="Runs locally">&nbsp;
@@ -33,8 +36,15 @@ Each bill tells you what you spent. None of them tells you what it bought.<br><b
 
 <sub>Illustrative data from <code>savingrabbit.py demo</code>. Your numbers come from your own keys.</sub>
 
+<table><tr><td align="center">
+<h2>💸 $42,840 a month back · 19% of the AI bill</h2>
+<sub>In the sample team: the Opus work that Sonnet handled just as well in replay, moved to Sonnet.<br>Same merged work, same quality bar. Illustrative data from <code>savingrabbit.py demo</code>; run it on yours.</sub>
+</td></tr></table>
+
 </div>
 
+> **Most AI coding spend goes to the most expensive model by default, including the work a cheaper one ships just as well.** SavingRabbit finds that work, proves it on your own tasks, and routes it to the cheaper model.
+>
 > **SavingRabbit** measures the ROI of AI coding tools. It is a one-file, read-only command-line tool for tracking Claude Code cost, Cursor usage, Codex and OpenAI spend, and GitHub Copilot seats against the work they ship. It pulls spend from each vendor's own admin API, reads which agent and model wrote each merged PR from the trailers your agents already leave in git, and reports cost per merged PR by tool, model and team. It runs on your machine, sends nothing anywhere except to the vendors you point it at, and never ranks individual people.
 
 ---

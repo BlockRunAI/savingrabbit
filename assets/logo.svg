@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="SavingRabbit">
+  <defs><clipPath id="coin"><circle cx="50" cy="50" r="48"/></clipPath></defs>
+  <circle cx="50" cy="50" r="48" fill="#25466B"/>
+  <g clip-path="url(#coin)" fill="#EEEAE1">
+    <path d="M38 52 C30 43 25 27 27.5 16 C29.5 8 38 8 41 16.5 C44.5 26 46 39 46 50 Z"/>
+    <path d="M62 52 C70 43 75 27 72.5 16 C70.5 8 62 8 59 16.5 C55.5 26 54 39 54 50 Z"/>
+    <ellipse cx="50" cy="60" rx="17.5" ry="15.5"/>
+    <path d="M24 104 C24 84 34 72 50 72 C66 72 76 84 76 104 Z"/>
+  </g>
+</svg>

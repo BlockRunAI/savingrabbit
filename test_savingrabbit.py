@@ -52,6 +52,11 @@ def test():
     assert [t["tool"] for t in out["tools"]] == ["Claude Code", "Claude API · wrkspc_1", "Cursor"]
     assert next(t for t in out["teams"] if t["team"] == "platform")["agent_share"] == 1.0
 
+    # savings found = spend on the replaced model x the replay saving
+    sv = R.build_report(cc, prs, savings={"current": "claude-opus-5-5", "pick": "claude-sonnet-5-5", "saving": 0.5})["savings"]
+    assert sv["usd"] == 15.0 and sv["share_of_spend"] == 0.429 and sv["to"] == "claude-sonnet-5-5"
+    assert R.build_report(cc, prs)["savings"] is None
+
     # dashboard renders, and the demo dataset round-trips
     svg = R.dashboard_svg(out)
     assert svg.startswith("<svg") and "claude-opus-5-5" in svg and "$20.00" in svg

@@ -386,7 +386,7 @@ def load_teams(path):
                         out[r[k].strip().lower()] = r["team"].strip()
     return out
 
-def build_report(spend, prs, teams=None):
+def build_report(spend, prs, teams=None, savings=None):
     teams = teams or {}
     tools, agents = defaultdict(float), defaultdict(lambda: {"cents": 0.0, "prs": 0.0, "tool": ""})
     by_team = defaultdict(lambda: {"cents": 0.0, "prs": 0, "agent_prs": 0.0})
@@ -412,8 +412,13 @@ def build_report(spend, prs, teams=None):
     agent_prs = sum(1 for p in prs if p["agents"])
     coding = sum(v["cents"] for v in agents.values())
     unit = "landed commits" if prs and all(p.get("unit") == "commit" for p in prs) else "merged PRs"
+    sv = savings or {}
+    cur_spend = agents.get(sv.get("current"), {}).get("cents", 0) if sv else 0
+    saved = cur_spend * sv.get("saving", 0) if sv else 0
     return {
-        "unit": unit, "spend_usd_total": usd(total), "merged_prs": len(prs), "merged_prs_with_agent": agent_prs,
+        "unit": unit, "spend_usd_total": usd(total),
+        "savings": {"usd": usd(saved), "share_of_spend": round(saved / total, 3) if total else 0,
+                    "from": sv.get("current"), "to": sv.get("pick")} if saved else None, "merged_prs": len(prs), "merged_prs_with_agent": agent_prs,
         "agent_share": round(agent_prs / len(prs), 3) if prs else None,
         "coding_usd_per_merged_pr": round(coding / 100 / agent_prs, 2) if agent_prs and coding else None,
         "tools": sorted(({"tool": t, "spend_usd": usd(c)} for t, c in tools.items()), key=lambda x: -x["spend_usd"]),
@@ -426,13 +431,21 @@ def build_report(spend, prs, teams=None):
 def money(v, cents=True):
     return "–" if v is None else (f"${v:,.2f}" if cents else f"${v:,.0f}")
 
+def read_savings():
+    path = os.path.join(DATA, "savings.json")
+    return json.load(open(path)) if os.path.exists(path) else None
+
 def report(a):
-    out = build_report(read_jsonl("spend.jsonl"), read_jsonl("prs.jsonl"), load_teams(a.teams))
+    out = build_report(read_jsonl("spend.jsonl"), read_jsonl("prs.jsonl"), load_teams(a.teams), read_savings())
     if a.json:
         return print(json.dumps(out, indent=2))
     share = "–" if out["agent_share"] is None else f"{out['agent_share']:.0%}"
     print(f"AI spend {money(out['spend_usd_total'])} · {out['merged_prs']} {out['unit']} · {share} written with an agent · "
           f"{money(out['coding_usd_per_merged_pr'])} per agent-written {out['unit'][:-1].split()[-1]}\n")
+    if out["savings"]:
+        sv = out["savings"]
+        print(f">>> SAVINGS FOUND: {money(sv['usd'])} in this window ({sv['share_of_spend']:.0%} of the bill) "
+              f"by moving {sv['from']} work to {sv['to']}, at the quality bar you set.\n")
     print("| Tool | Spend |\n|---|---:|")
     for t in out["tools"]:
         print(f"| {t['tool']} | {money(t['spend_usd'])} |")
@@ -458,6 +471,10 @@ def dashboard_svg(out, title="SavingRabbit"):
     share = "–" if out["agent_share"] is None else f"{out['agent_share']:.0%}"
     tiles = [("AI spend", money(out["spend_usd_total"], cents=False)), (out.get("unit", "merged PRs")[:1].upper() + out.get("unit", "merged PRs")[1:], f"{out['merged_prs']:,}"),
              ("Written with an agent", share), ("Per agent-written PR", money(out["coding_usd_per_merged_pr"]))]
+    if out.get("savings"):
+        sv = out["savings"]
+        tiles[2] = ("Per agent-written PR", money(out["coding_usd_per_merged_pr"]))
+        tiles[3] = (f"Savings found · {sv['share_of_spend']:.0%} of the bill", money(sv["usd"], cents=False))
     for i, (k, v) in enumerate(tiles):
         x = 32 + i * 228
         hl = i == 3
@@ -491,7 +508,7 @@ def dashboard_svg(out, title="SavingRabbit"):
     return "\n".join(s)
 
 def dashboard(a):
-    out = build_report(read_jsonl("spend.jsonl"), read_jsonl("prs.jsonl"), load_teams(a.teams))
+    out = build_report(read_jsonl("spend.jsonl"), read_jsonl("prs.jsonl"), load_teams(a.teams), read_savings())
     with open(a.out, "w") as f:
         f.write(dashboard_svg(out, a.title))
     print(f"wrote {a.out}", file=sys.stderr)
@@ -513,6 +530,8 @@ def demo(a):
         spend.append(spend_row(a.since, "demo", tool, "", None, usd_ * 100))
     write_jsonl("spend.jsonl", spend, "demo")
     write_jsonl("prs.jsonl", prs, "demo")
+    with open(os.path.join(DATA, "savings.json"), "w") as f:  # as if `replay` + `recommend` had run
+        json.dump({"current": "claude-opus-5-5", "pick": "claude-sonnet-5-5", "saving": 0.51}, f)
 
 # ------------------------------------------- act on it: route and replay ---
 # Samples are JSONL: {"id", "prompt", "system"?, "model" (what you use today), "accepted"? (the output you kept)}
@@ -606,6 +625,8 @@ def recommend_cmd(a):
     out = recommend(read_jsonl("replay.jsonl"), a.tolerance)
     if "error" in out:
         sys.exit(out["error"])
+    with open(os.path.join(DATA, "savings.json"), "w") as f:
+        json.dump({"current": slug(out["current"]), "pick": slug(out["pick"]), "saving": out["saving"]}, f)
     path = os.path.join(DATA, "clawrouter-exclude-models.json")
     with open(path, "w") as f:
         json.dump(out["exclude"], f, indent=2)

@@ -15,6 +15,7 @@
 <meta name="theme-color" content="#EEEAE1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1C1B19" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/logo.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-64.png" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -62,8 +63,8 @@ header.top .wrap { display: flex; align-items: center; justify-content: space-be
 .hero-copy { display: grid; gap: 22px; min-width: 0; }
 .hero > *, .hero-top > * { min-width: 0; }
 .cmd { max-width: 100%; }
-.mascot { width: 100%; max-width: 280px; height: auto; justify-self: end; }
-@media (max-width: 860px) { .hero-top { grid-template-columns: 1fr; } .mascot { max-width: 180px; justify-self: start; order: -1; } }
+.mascot { width: 100%; max-width: 240px; height: auto; justify-self: end; }
+@media (max-width: 860px) { .hero-top { grid-template-columns: 1fr; } .mascot { max-width: 96px; justify-self: start; order: -1; } }
 nav.links { display: flex; gap: 24px; align-items: center; font-size: 15px; }
 nav.links a { color: var(--prose); }
 .btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 11px 20px; font-weight: 600; font-size: 15px; border: 1px solid var(--accent); }
@@ -131,7 +132,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px soli
 <body>
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="/"><img src="/favicon-64.png" alt="" width="30" height="30">SavingRabbit</a>
+    <a class="brand" href="/"><img src="/logo.svg" alt="" width="30" height="30">SavingRabbit</a>
     <nav class="links" aria-label="Main">
       <a class="hide-sm" href="#how">How it works</a>
       <a class="hide-sm" href="#connect">Connect</a>
@@ -149,7 +150,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px soli
       <div class="eyebrow">Free · Open source · Apache 2.0</div>
       <h1>What your AI coding spend shipped, and where to save.</h1>
       <p class="sub">Your team pays Anthropic, OpenAI, Cursor and GitHub for AI. Each bill tells you what you spent. None of them tells you what it bought. SavingRabbit joins the bills to the pull requests that merged and prices every one.</p>
-      </div><img class="mascot" src="/mascot.png" alt="SavingRabbit, a cartoon rabbit holding a receipt and a coin" width="280" height="280"></div>
+      </div><img class="mascot" src="/logo.svg" alt="SavingRabbit logo: a rabbit cut out of a coin" width="240" height="240"></div>
       <div class="cmd" role="group" aria-label="Try it">
         <pre id="cmd">git clone https://github.com/BlockRunAI/savingrabbit && cd savingrabbit
 python3 savingrabbit.py pull-local --since 2026-11-01 --until 2026-11-30 --repo ~/code/app
@@ -242,16 +243,16 @@ python3 savingrabbit.py report</pre>
         </div>
         <div class="tier feature" id="teams">
           <span class="eyebrow" style="color:inherit;opacity:.75">Done for you</span>
-          <h3>Two-week AI spend review</h3>
-          <div class="price">From $30K</div>
+          <h3>Your own routing, kept optimal</h3>
+          <div class="price">From $5K <small>/ month</small></div>
           <ul>
-            <li>Your real AI bill, read-only access, reported by team and tool</li>
-            <li>Your top task types replayed on candidate models, 200–500 cases each, with proper grading</li>
-            <li>A model-per-task plan, with the quality evidence behind it</li>
-            <li>Then optional monitoring from $3K a month: we re-test whenever a new model ships</li>
+            <li><b>Monitor:</b> SavingRabbit on your real AI bill, read-only, by team and tool</li>
+            <li><b>Grade:</b> your top task types replayed on candidate models, 200–500 cases each, graded to fit the task</li>
+            <li><b>Your router:</b> a routing policy for <a href="https://github.com/BlockRunAI/router-core" style="color:inherit;text-decoration:underline">router-core</a> tuned to your tasks, running on your side</li>
+            <li><b>Keep it optimal:</b> every new model re-tested on your tasks, with a monthly report of what you saved</li>
           </ul>
           <a class="btn" href="https://blockrun.ai/work-with-us">Talk to BlockRun</a>
-          <span class="who">For engineering and finance leaders spending $250K+ a year on AI.</span>
+          <span class="who">Starts with a two-week setup from $30K. For teams spending $250K+ a year on AI.</span>
         </div>
       </div>
     </div>
@@ -266,7 +267,7 @@ python3 savingrabbit.py report</pre>
         <details><summary>How do I measure the ROI of Cursor, Copilot or Codex?</summary><p>Connect each tool's admin API and compare cost per merged PR across tools. Copilot is billed per seat, so its cost is seats times your seat price.</p></details>
         <details><summary>Can I track AI coding spend by team without tracking individuals?</summary><p>Yes. Map emails and GitHub logins to teams in a CSV. Spend and merged PRs roll up to teams, and the report never shows a person.</p></details>
         <details><summary>Does it send my code or prompts anywhere?</summary><p>No. It reads usage counts and git metadata locally. Only the optional <span class="mono">replay</span> command sends the sample prompts you choose to BlockRun's gateway, so use samples with secrets removed.</p></details>
-        <details><summary>Is it free?</summary><p>The tool is free under Apache 2.0, including commercial use inside your company. Replays run on a BlockRun key at each model's list price plus a 5% platform fee. The two-week review and ongoing monitoring are paid services from BlockRun.</p></details>
+        <details><summary>Is it free?</summary><p>The tool is free under Apache 2.0, including commercial use inside your company. Replays run on a BlockRun key at each model's list price plus a 5% platform fee. The managed service (setup, your own routing policy, and ongoing optimization) is a paid service from BlockRun.</p></details>
         <details><summary>Can a small sample tell me which cheaper model to use?</summary><p>A sample can rule out models that clearly fail. Deciding that a cheaper model holds your quality bar needs a few hundred cases per task type and grading that fits the task. That is what the two-week review does.</p></details>
       </div>
     </div>
