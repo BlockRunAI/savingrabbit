@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="620" viewBox="0 0 960 620" font-family="-apple-system, Segoe UI, Inter, Helvetica, Arial, sans-serif">
+<rect width="960" height="620" rx="16" fill="#f6f7f5"/>
+<text x="32" y="48" font-size="22" font-weight="700" fill="#14201d">SavingRabbit · sample team, November</text>
+<text x="32" y="72" font-size="13" fill="#5b6763">What the AI spend shipped · by tool, model and team, never by person</text>
+<rect x="32" y="92" width="212" height="84" rx="10" fill="#ffffff" stroke="#dde3df"/>
+<text x="48" y="118" font-size="12" fill="#5b6763">AI spend</text>
+<text x="48" y="156" font-size="28" font-weight="700" fill="#14201d">$224,300</text>
+<rect x="260" y="92" width="212" height="84" rx="10" fill="#ffffff" stroke="#dde3df"/>
+<text x="276" y="118" font-size="12" fill="#5b6763">Merged prs</text>
+<text x="276" y="156" font-size="28" font-weight="700" fill="#14201d">6,230</text>
+<rect x="488" y="92" width="212" height="84" rx="10" fill="#ffffff" stroke="#dde3df"/>
+<text x="504" y="118" font-size="12" fill="#5b6763">Written with an agent</text>
+<text x="504" y="156" font-size="28" font-weight="700" fill="#14201d">77%</text>
+<rect x="716" y="92" width="212" height="84" rx="10" fill="#dcefe9" stroke="none"/>
+<text x="732" y="118" font-size="12" fill="#5b6763">Per agent-written PR</text>
+<text x="732" y="156" font-size="28" font-weight="700" fill="#0f6e5c">$29.98</text>
+<rect x="32" y="196" width="440" height="392" rx="10" fill="#ffffff" stroke="#dde3df"/>
+<text x="48" y="226" font-size="14" font-weight="600" fill="#14201d">Spend by tool</text>
+<text x="48" y="266" font-size="12.5" fill="#14201d">Claude Code</text>
+<rect x="230" y="255" width="120.0" height="14" rx="3" fill="#0f6e5c"/>
+<text x="456" y="266" font-size="12" fill="#5b6763" text-anchor="end">$118,000</text>
+<text x="48" y="306" font-size="12.5" fill="#14201d">Claude API · pr-revie…</text>
+<rect x="230" y="295" width="34.6" height="14" rx="3" fill="#0f6e5c"/>
+<text x="456" y="306" font-size="12" fill="#5b6763" text-anchor="end">$34,000</text>
+<text x="48" y="346" font-size="12.5" fill="#14201d">Claude API · test-gen</text>
+<rect x="230" y="335" width="22.4" height="14" rx="3" fill="#0f6e5c"/>
+<text x="456" y="346" font-size="12" fill="#5b6763" text-anchor="end">$22,000</text>
+<text x="48" y="386" font-size="12.5" fill="#14201d">Claude API · incident…</text>
+<rect x="230" y="375" width="16.3" height="14" rx="3" fill="#0f6e5c"/>
+<text x="456" y="386" font-size="12" fill="#5b6763" text-anchor="end">$16,000</text>
+<text x="48" y="426" font-size="12.5" fill="#14201d">Codex</text>
+<rect x="230" y="415" width="15.3" height="14" rx="3" fill="#0f6e5c"/>
+<text x="456" y="426" font-size="12" fill="#5b6763" text-anchor="end">$15,000</text>
+<text x="48" y="466" font-size="12.5" fill="#14201d">BlockRun gateway</text>
+<rect x="230" y="455" width="9.2" height="14" rx="3" fill="#0f6e5c"/>
+<text x="456" y="466" font-size="12" fill="#5b6763" text-anchor="end">$9,000</text>
+<text x="48" y="506" font-size="12.5" fill="#14201d">Cursor</text>
+<rect x="230" y="495" width="8.1" height="14" rx="3" fill="#0f6e5c"/>
+<text x="456" y="506" font-size="12" fill="#5b6763" text-anchor="end">$8,000</text>
+<text x="48" y="546" font-size="12.5" fill="#14201d">Copilot</text>
+<rect x="230" y="535" width="2.3" height="14" rx="3" fill="#0f6e5c"/>
+<text x="456" y="546" font-size="12" fill="#5b6763" text-anchor="end">$2,300</text>
+<rect x="488" y="196" width="440" height="392" rx="10" fill="#ffffff" stroke="#dde3df"/>
+<text x="504" y="226" font-size="14" font-weight="600" fill="#14201d">Cost per merged PR, by coding agent</text>
+<text x="504" y="252" font-size="11" fill="#5b6763">AGENT · MODEL</text>
+<text x="784" y="252" font-size="11" fill="#5b6763" text-anchor="end">MERGED PRS</text>
+<text x="912" y="252" font-size="11" fill="#5b6763" text-anchor="end">PER PR</text>
+<line x1="504" x2="912" y1="266" y2="266" stroke="#dde3df"/>
+<text x="504" y="284" font-size="13" fill="#14201d">claude-opus-5-5</text>
+<text x="784" y="284" font-size="13" fill="#14201d" text-anchor="end">2,400</text>
+<text x="912" y="284" font-size="13" font-weight="600" fill="#0f6e5c" text-anchor="end">$35.00</text>
+<line x1="504" x2="912" y1="302" y2="302" stroke="#dde3df"/>
+<text x="504" y="320" font-size="13" fill="#14201d">claude-fable-5-1</text>
+<text x="784" y="320" font-size="13" fill="#14201d" text-anchor="end">600</text>
+<text x="912" y="320" font-size="13" font-weight="600" fill="#0f6e5c" text-anchor="end">$36.67</text>
+<line x1="504" x2="912" y1="338" y2="338" stroke="#dde3df"/>
+<text x="504" y="356" font-size="13" fill="#14201d">codex</text>
+<text x="784" y="356" font-size="13" fill="#14201d" text-anchor="end">700</text>
+<text x="912" y="356" font-size="13" font-weight="600" fill="#0f6e5c" text-anchor="end">$21.43</text>
+<line x1="504" x2="912" y1="374" y2="374" stroke="#dde3df"/>
+<text x="504" y="392" font-size="13" fill="#14201d">claude-sonnet-5-5</text>
+<text x="784" y="392" font-size="13" fill="#14201d" text-anchor="end">700</text>
+<text x="912" y="392" font-size="13" font-weight="600" fill="#0f6e5c" text-anchor="end">$17.14</text>
+<line x1="504" x2="912" y1="410" y2="410" stroke="#dde3df"/>
+<text x="504" y="428" font-size="13" fill="#14201d">cursor</text>
+<text x="784" y="428" font-size="13" fill="#14201d" text-anchor="end">380</text>
+<text x="912" y="428" font-size="13" font-weight="600" fill="#0f6e5c" text-anchor="end">$21.05</text>
+<line x1="504" x2="912" y1="446" y2="446" stroke="#dde3df"/>
+<text x="504" y="464" font-size="13" fill="#14201d">copilot</text>
+<text x="784" y="464" font-size="13" fill="#14201d" text-anchor="end">0</text>
+<text x="912" y="464" font-size="13" font-weight="600" fill="#0f6e5c" text-anchor="end">–</text>
+</svg>
