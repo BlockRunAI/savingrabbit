@@ -105,6 +105,18 @@ ul.checks b { color: var(--ink); }
 .tier.feature .btn { background: var(--paper); color: var(--accent); border-color: var(--paper); }
 .tier .who { font-size: 14px; opacity: .8; }
 @media (max-width: 860px) { .tiers { grid-template-columns: 1fr; } }
+.contact { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 40px; align-items: start; }
+form.lead { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; }
+form.lead label { display: grid; gap: 6px; font-size: 14px; color: var(--dim); min-width: 0; }
+form.lead .full { grid-column: 1 / -1; }
+form.lead input, form.lead select, form.lead textarea { font: inherit; font-size: 15px; color: var(--ink); background: var(--paper); border: 1px solid var(--line-2); border-radius: 10px; padding: 10px 12px; width: 100%; }
+form.lead textarea { min-height: 110px; resize: vertical; }
+form.lead input:focus, form.lead select:focus, form.lead textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+form.lead .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+form.lead button { justify-self: start; cursor: pointer; }
+#formStatus { font-size: 14px; color: var(--dim); align-self: center; }
+.mail { font-family: var(--mono); font-size: 16px; color: var(--accent); }
+@media (max-width: 860px) { .contact { grid-template-columns: 1fr; } form.lead { grid-template-columns: 1fr; } }
 .teams { background: var(--accent); color: var(--paper); border-radius: 18px; padding: 36px; display: grid; gap: 14px; }
 .teams h2 { color: var(--paper); }
 .teams p { color: var(--paper); opacity: 0.9; }
@@ -138,6 +150,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px soli
       <a class="hide-sm" href="#connect">Connect</a>
       <a class="hide-sm" href="#pricing">Pricing</a>
       <a class="hide-sm" href="#faq">FAQ</a>
+      <a class="hide-sm" href="#contact">Contact</a>
       <a class="btn ghost" href="https://github.com/BlockRunAI/savingrabbit">GitHub</a>
     </nav>
   </div>
@@ -251,10 +264,43 @@ python3 savingrabbit.py report</pre>
             <li><b>Your router:</b> a routing policy for <a href="https://github.com/BlockRunAI/router-core" style="color:inherit;text-decoration:underline">router-core</a> tuned to your tasks, running on your side</li>
             <li><b>Keep it optimal:</b> every new model re-tested on your tasks, with a monthly report of what you saved</li>
           </ul>
-          <a class="btn" href="https://blockrun.ai/work-with-us">Talk to BlockRun</a>
+          <a class="btn" href="#contact">Talk to us</a>
           <span class="who">Starts with a two-week setup from $30K. For teams spending $250K+ a year on AI.</span>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap contact">
+      <div style="display:grid;gap:14px">
+        <div class="eyebrow">Contact</div>
+        <h2>Tell us what you spend on AI. We'll tell you what it should cost.</h2>
+        <p>Questions about the tool, a managed review for your team, or a partnership. A person reads every message and replies within two business days.</p>
+        <p>Or email <a class="mail" href="mailto:hello@savingrabbit.com">hello@savingrabbit.com</a></p>
+      </div>
+      <form class="lead" id="lead" novalidate>
+        <label>Name<input id="f-name" name="name" autocomplete="name" required></label>
+        <label>Work email<input id="f-email" name="email" type="email" autocomplete="email" required></label>
+        <label>Company<input id="f-company" name="company" autocomplete="organization"></label>
+        <label>Role<input id="f-role" name="role" autocomplete="organization-title"></label>
+        <label>AI spend per year
+          <select id="f-spend" name="spend">
+            <option value="">Choose one</option><option>Under $50K</option><option>$50K–$250K</option>
+            <option>$250K–$1M</option><option>$1M–$5M</option><option>Over $5M</option>
+          </select></label>
+        <label>Interested in
+          <select id="f-interest" name="interest">
+            <option>Managed review and routing</option><option>Help with the open-source tool</option>
+            <option>Partnership</option><option>Something else</option>
+          </select></label>
+        <label class="full">What would you like to know?<textarea id="f-message" name="message"></textarea></label>
+        <div class="hp" aria-hidden="true"><label>Website<input id="f-website" name="website" tabindex="-1" autocomplete="off"></label></div>
+        <div class="full" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+          <button class="btn primary" type="submit" id="f-submit">Send</button>
+          <span id="formStatus" role="status" aria-live="polite"></span>
+        </div>
+      </form>
     </div>
   </section>
 
@@ -277,11 +323,26 @@ python3 savingrabbit.py report</pre>
 <footer>
   <div class="wrap">
     <span>SavingRabbit · made by <a href="https://blockrun.ai">BlockRun</a> · Apache 2.0</span>
-    <span><a href="https://github.com/BlockRunAI/savingrabbit">GitHub</a> · <a href="https://github.com/BlockRunAI/ClawRouter">ClawRouter</a> · <a href="https://user.blockrun.ai">Get a BlockRun key</a></span>
+    <span><a href="mailto:hello@savingrabbit.com">hello@savingrabbit.com</a> · <a href="https://github.com/BlockRunAI/savingrabbit">GitHub</a> · <a href="https://github.com/BlockRunAI/ClawRouter">ClawRouter</a> · <a href="https://user.blockrun.ai">Get a BlockRun key</a></span>
   </div>
 </footer>
 
 <script>
+document.getElementById("lead").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const f = e.target, st = document.getElementById("formStatus"), btn = document.getElementById("f-submit");
+  const data = Object.fromEntries(new FormData(f));
+  if (!data.name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.email || "")) { st.textContent = "Please add your name and a valid work email."; return; }
+  btn.disabled = true; st.textContent = "Sending…";
+  try {
+    const r = await fetch("https://savingrabbit.com/api/contact", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(data) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || "Something went wrong.");
+    f.reset(); st.textContent = "Thanks. We'll reply within two business days.";
+  } catch (err) {
+    st.textContent = (err.message || "Couldn't send.") + " You can also email hello@savingrabbit.com.";
+  } finally { btn.disabled = false; }
+});
 document.getElementById("copy").addEventListener("click", async (e) => {
   const text = document.getElementById("cmd").textContent;
   try { await navigator.clipboard.writeText(text); e.target.textContent = "Copied"; }

@@ -246,6 +246,10 @@ python3 test_savingrabbit.py
 
 ---
 
+## Talk to us
+
+Questions, a managed review for your team, or a partnership: [fill in the form](https://savingrabbit.com/#contact) or email **hello@savingrabbit.com**. A person reads every message.
+
 ## License
 
 [Apache License 2.0](LICENSE). Free for everyone, including commercial use inside your company.
