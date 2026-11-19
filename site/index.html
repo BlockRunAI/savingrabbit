@@ -93,6 +93,17 @@ ul.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
 ul.checks li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; }
 ul.checks li::before { content: "✓"; color: var(--ok); font-weight: 700; }
 ul.checks b { color: var(--ink); }
+.tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 32px; }
+.tier { border: 1px solid var(--line); border-radius: 16px; padding: 26px; display: grid; gap: 14px; align-content: start; min-width: 0; background: var(--paper); }
+.tier.feature { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.tier.feature h3, .tier.feature .price, .tier.feature li { color: var(--paper); }
+.tier .price { font-size: 30px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; }
+.tier .price small { font-size: 15px; font-weight: 500; opacity: .75; letter-spacing: 0; }
+.tier ul { margin: 0; padding-left: 18px; display: grid; gap: 8px; font-size: 15px; }
+.tier .btn { width: fit-content; }
+.tier.feature .btn { background: var(--paper); color: var(--accent); border-color: var(--paper); }
+.tier .who { font-size: 14px; opacity: .8; }
+@media (max-width: 860px) { .tiers { grid-template-columns: 1fr; } }
 .teams { background: var(--accent); color: var(--paper); border-radius: 18px; padding: 36px; display: grid; gap: 14px; }
 .teams h2 { color: var(--paper); }
 .teams p { color: var(--paper); opacity: 0.9; }
@@ -124,6 +135,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px soli
     <nav class="links" aria-label="Main">
       <a class="hide-sm" href="#how">How it works</a>
       <a class="hide-sm" href="#connect">Connect</a>
+      <a class="hide-sm" href="#pricing">Pricing</a>
       <a class="hide-sm" href="#faq">FAQ</a>
       <a class="btn ghost" href="https://github.com/BlockRunAI/savingrabbit">GitHub</a>
     </nav>
@@ -146,7 +158,7 @@ python3 savingrabbit.py report</pre>
       </div>
       <div class="ctas">
         <a class="btn primary" href="https://github.com/BlockRunAI/savingrabbit">Get it on GitHub</a>
-        <a class="btn ghost" href="#teams">Run it on your team's data</a>
+        <a class="btn ghost" href="#pricing">Pricing</a>
       </div>
       <div class="shot"><img src="/dashboard.svg" alt="SavingRabbit dashboard: AI spend by tool, and cost per merged PR by coding agent and model" width="960" height="620"></div>
       <div class="caption">Illustrative data from <span class="mono">savingrabbit.py demo</span>. Your numbers come from your own logs and keys.</div>
@@ -199,13 +211,48 @@ python3 savingrabbit.py report</pre>
     </div>
   </section>
 
-  <section id="teams" style="border-bottom:0">
+  <section id="pricing" style="border-bottom:0">
     <div class="wrap">
-      <div class="teams">
-        <div class="eyebrow" style="color:inherit;opacity:.75">For engineering and finance leaders</div>
-        <h2>Want the answer on your real data, in two weeks?</h2>
-        <p>BlockRun runs SavingRabbit on your AI bill with read-only access, replays your top tasks on candidate models, and hands you a model-per-task plan with the quality evidence behind it.</p>
-        <a class="btn" href="https://blockrun.ai/work-with-us">Talk to BlockRun</a>
+      <div class="eyebrow">Pricing</div>
+      <h2>Free to measure. Pay when you act on it.</h2>
+      <div class="tiers">
+        <div class="tier">
+          <span class="eyebrow">Open source</span>
+          <h3>SavingRabbit</h3>
+          <div class="price">$0</div>
+          <ul>
+            <li>Cost per merged PR by tool, model and team</li>
+            <li>Personal mode with no keys</li>
+            <li>Dashboard, report, JSON export</li>
+            <li>Apache 2.0, runs on your machine</li>
+          </ul>
+          <a class="btn ghost" href="https://github.com/BlockRunAI/savingrabbit">Get it on GitHub</a>
+        </div>
+        <div class="tier">
+          <span class="eyebrow">Pay per call</span>
+          <h3>Replay and route on BlockRun</h3>
+          <div class="price">List price <small>+ 5%</small></div>
+          <ul>
+            <li>One key for every major model: Claude, GPT, Gemini, DeepSeek and more</li>
+            <li>Replay your real tasks on cheaper models and see the exact cost of each call</li>
+            <li>Move the work that passes onto <a href="https://github.com/BlockRunAI/ClawRouter">ClawRouter</a></li>
+            <li>Top up by card. No subscription, no minimum</li>
+          </ul>
+          <a class="btn primary" href="https://user.blockrun.ai">Get a BlockRun key</a>
+        </div>
+        <div class="tier feature" id="teams">
+          <span class="eyebrow" style="color:inherit;opacity:.75">Done for you</span>
+          <h3>Two-week AI spend review</h3>
+          <div class="price">From $30K</div>
+          <ul>
+            <li>Your real AI bill, read-only access, reported by team and tool</li>
+            <li>Your top task types replayed on candidate models, 200–500 cases each, with proper grading</li>
+            <li>A model-per-task plan, with the quality evidence behind it</li>
+            <li>Then optional monitoring from $3K a month: we re-test whenever a new model ships</li>
+          </ul>
+          <a class="btn" href="https://blockrun.ai/work-with-us">Talk to BlockRun</a>
+          <span class="who">For engineering and finance leaders spending $250K+ a year on AI.</span>
+        </div>
       </div>
     </div>
   </section>
@@ -219,7 +266,8 @@ python3 savingrabbit.py report</pre>
         <details><summary>How do I measure the ROI of Cursor, Copilot or Codex?</summary><p>Connect each tool's admin API and compare cost per merged PR across tools. Copilot is billed per seat, so its cost is seats times your seat price.</p></details>
         <details><summary>Can I track AI coding spend by team without tracking individuals?</summary><p>Yes. Map emails and GitHub logins to teams in a CSV. Spend and merged PRs roll up to teams, and the report never shows a person.</p></details>
         <details><summary>Does it send my code or prompts anywhere?</summary><p>No. It reads usage counts and git metadata locally. Only the optional <span class="mono">replay</span> command sends the sample prompts you choose to BlockRun's gateway, so use samples with secrets removed.</p></details>
-        <details><summary>Is it free?</summary><p>Yes. Apache 2.0, including commercial use inside your company. Replays run on BlockRun at the cost of the calls.</p></details>
+        <details><summary>Is it free?</summary><p>The tool is free under Apache 2.0, including commercial use inside your company. Replays run on a BlockRun key at each model's list price plus a 5% platform fee. The two-week review and ongoing monitoring are paid services from BlockRun.</p></details>
+        <details><summary>Can a small sample tell me which cheaper model to use?</summary><p>A sample can rule out models that clearly fail. Deciding that a cheaper model holds your quality bar needs a few hundred cases per task type and grading that fits the task. That is what the two-week review does.</p></details>
       </div>
     </div>
   </section>
