@@ -7,7 +7,7 @@
 <p><strong>What your AI coding spend shipped, and where to save.</strong><br>
 Claude Code, Cursor, Codex and Copilot cost per merged pull request, by model and team.</p>
 
-<h3>Stop paying Opus prices for Sonnet work.</h3>
+<h3>Stop paying Opus prices for Sonnet work.<br>Cut 50–80% on every task that moves to a cheaper model.</h3>
 
 <p>Your team pays Anthropic, OpenAI, Cursor and GitHub for AI.<br>
 Each bill tells you what you spent. None of them tells you what it bought.<br><br>
@@ -15,7 +15,7 @@ Each bill tells you what you spent. None of them tells you what it bought.<br><b
 
 <br>
 
-<img src="https://img.shields.io/badge/💸_Find_the_savings-8C6A3F?style=for-the-badge" alt="Find the savings">&nbsp;
+<img src="https://img.shields.io/badge/💸_50–80%25_less_per_task_that_moves-8C6A3F?style=for-the-badge" alt="50–80% less per task that moves">&nbsp;
 <img src="https://img.shields.io/badge/🧾_Cost_per_merged_PR-0f6e5c?style=for-the-badge" alt="Cost per merged PR">&nbsp;
 <img src="https://img.shields.io/badge/🔒_Read--only-black?style=for-the-badge" alt="Read-only">&nbsp;
 <img src="https://img.shields.io/badge/🏠_Runs_locally-blue?style=for-the-badge" alt="Runs locally">&nbsp;
@@ -60,6 +60,22 @@ The data for that middle already exists, in pieces:
 - **Outcome** sits in GitHub: the PR merged or it didn't.
 
 SavingRabbit is the join. It deliberately stops there, at a number you can check, rather than trying to score productivity.
+
+---
+
+## How much can you save?
+
+**50–80% on every task that moves to a cheaper model.** That's the gap in list price between the model most teams default to and the cheaper models that often do the same job:
+
+| Moving work from | to | Input / output per 1M tokens | Saving per task |
+|---|---|---|---:|
+| Claude Opus 5.5 | Claude Sonnet 5.5 | $4 / $20 → $2 / $10 | **50%** |
+| Claude Fable 5.2 | Claude Sonnet 5.5 | $8 / $40 → $2 / $10 | **75%** |
+| Claude Opus 5.5 | DeepSeek V4 Pro | $4 / $20 → $1.32 / $3.96 | **67–80%** |
+
+<sub>List prices from BlockRun's public model catalog, November 2026. Saving per task assumes the same token count, so retries on the cheaper model cut into it; `replay` measures that on your own tasks.</sub>
+
+Your saving on the whole bill is that per-task saving times the share of work that clears your quality bar. SavingRabbit's job is to find that share: `report` shows where the money goes, `replay` proves which tasks a cheaper model handles, and `recommend` routes them.
 
 ---
 
